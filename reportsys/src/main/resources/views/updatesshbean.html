@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updateSShbean</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+
+</head>
+<style>
+  .width190 {width:190px;}
+  .input70{ width: 70%;}
+    .margintop20{margin-top: 20px}
+</style>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="display:none;">
+        <div class="layui-input-block">
+            <input type="text" id="id" name="id" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item margintop20">
+        <label class="layui-form-label width190">远程服务器地址</label>
+        <div class="layui-input-block">
+            <input type="text" id="ip" name="ip" autocomplete="off" placeholder="远程服务器地址" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label width190">远程服务端口号</label>
+        <div class="layui-input-block">
+            <input type="text" id="port" name="port" autocomplete="off" placeholder="远程服务端口号" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label width190">GoReplay部署目录</label>
+        <div class="layui-input-block">
+            <input type="text" id="goreplaydir" name="goreplaydir" autocomplete="off" placeholder="GoReplay部署目录" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label width190">远程服务用户名</label>
+        <div class="layui-input-block">
+            <input type="text" id="username" name="username" autocomplete="off" placeholder="远程服务用户名" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label width190">远程服务密码</label>
+        <div class="layui-input-block">
+            <input type="text" id="password" name="password" autocomplete="off" placeholder="远程服务密码" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label width190">录制端口号</label>
+        <div class="layui-input-block">
+            <input type="text" id="recodeport" name="recodeport" autocomplete="off" placeholder="录制端口号" class="layui-input input70">
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+        </div>
+    </div>
+</form>
+<script src="layui/layui.all.js" charset="utf-8"></script>
+<script>
+   //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        var $=layui.$;
+        //监听提交
+        var  type=getQueryString("type");
+        form.on('submit(formDemo)', function(data){
+            if(type==2){
+                $.ajax({
+                    type:"POST",
+                    async:false,
+                    dataType:'json',
+                    contentType :"application/json",
+                    url:"/UpdateSshbean",
+                    data: JSON.stringify(data.field),
+                    success:function (data) {
+                        if(data.code==0){
+                            layer.msg("修改成功");
+                            //关闭当前页面，刷新父级页面
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+
+                        }
+                    }
+                });
+
+
+            }else if(type==1){
+                $.ajax({
+                    type:"POST",
+                    async:false,
+                    dataType:'json',
+                    contentType :"application/json",
+                    url:"/addsshbean",
+                    data: JSON.stringify(data.field),
+                    success:function (data) {
+                        if(data.code==0){
+                            layer.msg("新增成功");
+                            //关闭当前页面，刷新父级页面
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+
+                        }
+
+
+                    }
+                });
+            }
+
+
+
+
+        });
+        return false;
+    });
+    //说明:获取url参数
+    //参数obj:访问路径
+    //返回值:参数
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r !== null)
+            return unescape(r[2]);
+        return null;
+    }
+</script>
+</body>
+</html>

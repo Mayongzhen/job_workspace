@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>CRM测试平台</title>
+        <link rel="stylesheet" href="layui/css/layui.css">
+    </head>
+<style type="text/css">
+    html,body{
+        height: 100%;
+    }
+    body{
+        margin: 0;
+    }
+    .layui-nav-tree {
+        height: 800px;
+        padding: 0;
+    }
+    .layui-nav .layui-nav-item {
+        position: relative;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        vertical-align: middle;
+        line-height: 45px;
+    }
+    .div-a{
+        float: left; width:15%;
+    }
+    .div-b{
+        float: right;width: 85%;
+        background: #00FF00;
+        padding: 0;
+        margin: 0;
+        height:800px;
+    }
+
+</style>
+<script src="layui/layui.all.js"></script>
+<body >
+<div id="header" >
+
+<ul class="layui-nav"style="text-align: right">
+    <li class="layui-nav-item">
+        <a>CRM测试平台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </a>
+    </li>
+    <li class="layui-nav-item">
+        <a>欢迎欢迎</a>
+    </li>
+    <li class="layui-nav-item">
+    <li class="layui-nav-item">
+        <a href="/loginout"><img src="layui/image/happy.jpg" class="layui-nav-img">Login-Out</a>
+    </li>
+</ul>
+</div>
+<div id="container">
+    <div class="div-a">
+        <ul class="layui-nav layui-nav-tree" style="text-align: center">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item layui-nav-itemed">
+                <dl class="layui-nav-child">
+                    <dd><a href="">Api-Test</a></dd>
+                    <dd><a href="javascript:;">Load-Test</a></dd>
+                    <dd><a href="http://localhost:3000/">Jmeter-Monitoring</a></dd>
+                    <dd><a href="">Service-Monitoring</a></dd>
+                    <dd><a href="">Test-Reports</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="div-b" >
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+        element.on('nav(filter)', function(elem){
+            console.log(elem); //得到当前点击的DOM对象
+        });
+        //…
+    });
+</script>
+<!-- 条目中可以是任意内容，如：<img src=""> -->
+</html>

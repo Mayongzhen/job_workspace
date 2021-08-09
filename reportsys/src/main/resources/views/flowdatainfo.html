@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <title>流量详情</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <!-- JSON Viewer -->
+    <link href="layui/json-viewer/jquery.json-viewer.css" rel="stylesheet">
+    <style>
+        .area
+        {
+            height: auto;
+            margin: auto;
+        }
+        .rightarea
+        {
+            float: left;
+            width: 70%;
+            height: 300px;
+        }
+        .leftarea
+        {
+            float: left;
+            width: 30%;
+            height: 300px;
+        }
+       .margin-10{
+           margin: 10px;
+       }
+       .height38{
+           height:38px;
+       }
+        .margin-40{
+           margin:40px;
+        }
+        .margin-20{
+            margin:20px;
+        }
+        .min-height{
+            height: 150px;
+        }
+        p.options label {
+            margin-right: 10px;
+        }
+        p.options input[type=checkbox] {
+            vertical-align: middle;
+        }
+        textarea#json-input {
+            width: 100%;
+            height: 200px;
+        }
+        pre#json-renderer {
+            border: 1px solid #e6e6e6;
+        }
+        .width98{
+         width:98%;
+        }
+
+    </style>
+</head>
+<body>
+<script src="layui/jquery-3.1.0.min.js"></script>
+<!-- JSON viewer -->
+<script src="layui/json-viewer/jquery.json-viewer.js"></script>
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="display:none;">
+        <div class="layui-input-block">
+            <input type="text" id="id" name="id" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top:10px">
+        <label class="layui-form-label" >接口地址</label>
+        <div class="layui-input-block">
+            <input type="text" id="reqURL" name="reqURL" autocomplete="off" placeholder="接口地址" class="layui-input width98">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求方式</label>
+        <div class="layui-input-block">
+            <input type="text" id="reqMethod" name="reqMethod" autocomplete="off" placeholder="请求方式" class="layui-input width98">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求协议</label>
+        <div class="layui-input-block">
+            <input type="text" id="respProto" name="respProto" autocomplete="off" placeholder="请求协议" class="layui-input width98">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">响应状态码</label>
+        <div class="layui-input-block">
+            <input type="text" id="respStatus" name="respStatus" autocomplete="off" placeholder="响应状态码" class="layui-input width98">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">响应时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="rtt" name="rtt" autocomplete="off" placeholder="响应时间" class="layui-input width98">
+        </div>
+    </div>
+
+</form>
+<div class="area">
+  <div class="leftarea">
+      <label style="width:30%;margin-left:80px">回放服务器</label>
+      <select id="ip_port" name="ip_port" class="layui-input" style="width:90%;margin:10px;margin-left:20px">
+          <option value="1">http://172.16.16.58:80</option>
+          <option value="2">http://172.16.16.34:80</option>
+          <option value="3">http://172.16.16.36:80</option>
+          <option value="4">http://172.16.16.97:80</option>
+      </select>
+      <button class="layui-btn layui-btn-normal" id="replay" style="width:30%;margin-left:80px; margin-top:10px">回放</button>
+      <button class="layui-btn layui-btn-danger" id="grentortime" style="width:50%;margin-left:60px;margin-top:20px">生成时间戳</button>
+      <label id="time9" style="width:50%;margin-left:60px;margin-top:10px">降噪字段9位时间戳</label>
+      <button class="layui-btn layui-btn-warm" id="parseJson" style="width:50%;margin-left:60px; margin-top:20px">json格式化</button>
+  </div>
+    <div class="rightarea">
+        <label style="width:40%;margin-left:100px">回放结果:</label><font id='succseelabel' style="display:none;" face="华文楷体" size="3" color="#99ff00">Pass</font><font id="faillabel" face="华文楷体" size="3" color="#ff0000" style="display:none;" >Fail</font>
+        <textarea id="textresult" name="" required lay-verify="required" placeholder="结果" class="layui-textarea min-height" style="margin:10px;width: 96%;"></textarea>
+        <pre id="json-renderer" style="margin:10px" ></pre>
+        <br>
+        <br>
+    </div>
+
+</div>
+<script>
+
+    jQuery(function () {
+        var url='';
+        $('#replay').on("click", function () {
+            if ($("#ip_port").find("option:selected").text() == ''||$('#reqURL').val()==''||$('#reqMethod').val()=='') {
+                alert("内容不能为空");
+                return;
+            }
+
+            $("#textresult").val("");
+            url=$("#ip_port").find("option:selected").text() +""+$('#reqURL').val();
+           // alert(url);
+            $.ajax({
+                type: 'POST',
+                url: "/RunFlowCase",
+                data: {
+                    "url": url,
+                    "method":$('#reqMethod').val()
+                },
+                success:function (data,status) {
+                   // $("#txt1").val("你需要赋的值");
+                    if(status=='success'){
+                        $("#faillabel").hide();
+                      $("#succseelabel").show();
+                    }else{
+                        $("#succseelabel").hide();
+                        $("#faillabel").show();
+                    }
+                    $("#textresult").val(data);
+
+
+
+                  //  alert("Data: " + data + "\nStatus: " + status);
+                }
+            });
+
+
+
+
+        });
+        var timestamp;
+
+        $("#grentortime").on("click",function () {
+            timestamp=Math.round(new Date().getTime()/1000);
+            $("#time9").text(timestamp);
+        });
+
+
+        $("#parseJson").on("click",function () {
+            try {
+                if($("#textresult").val()==''){
+                   alert("格式化数据为空")
+                }else{
+                    var input =  eval('(' +  $("#textresult").val() + ')');
+                }
+
+
+            }
+            catch (error) {
+                return alert("Cannot eval JSON: " + error);
+            }
+            var options = {
+                collapsed: $('#collapsed').is(':checked'),
+                rootCollapsable: $('#root-collapsable').is(':checked'),
+                withQuotes: $('#with-quotes').is(':checked'),
+                withLinks: $('#with-links').is(':checked')
+            };
+            $('#json-renderer').jsonViewer(input, options);
+
+        })
+
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updatecase</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="display:none;">
+        <div class="layui-input-block">
+            <input type="text" id="id" name="id" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用例名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="apiName" name="apiName" autocomplete="off" placeholder="用例名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">协议名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="protocol" name="protocol" autocomplete="off" placeholder="协议名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">ip/域名</label>
+        <div class="layui-input-block">
+            <input type="text" id="serverOrIP" name="serverOrIP" autocomplete="off" placeholder="ip/域名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">端口号</label>
+        <div class="layui-input-block">
+            <input type="text" id="port" name="port" autocomplete="off" placeholder="端口号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求方式</label>
+        <div class="layui-input-block">
+            <select id="method" name="method">
+                <option value="1">GET</option>
+                <option value="2">HEAD</option>
+                <option value="3">POST</option>
+                <option value="4">PUT</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block">
+            <input type="text" id="path" name="path" autocomplete="off" placeholder="地址" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求头</label>
+        <div class="layui-input-block">
+            <input type="text" id="header" name="header" autocomplete="off" placeholder="请求头" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请求参数</label>
+        <div class="layui-input-block">
+            <input type="text" id="paramter" name="paramter" autocomplete="off" placeholder="请求参数" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">编码格式</label>
+        <div class="layui-input-block">
+            <input type="text" id="encode" name="encode" autocomplete="off" placeholder="编码格式" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">参数化</label>
+        <div class="layui-input-block">
+            <input type="text" id="parametric" name="parametric" autocomplete="off" placeholder="参数化" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">断言</label>
+        <div class="layui-input-block">
+            <input type="text" id="assert" name="assert" autocomplete="off" placeholder="断言" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+        </div>
+    </div>
+</form>
+<script src="layui/layui.all.js" charset="utf-8"></script>
+<script>
+   //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        var $=layui.$;
+        //监听提交
+        var  type=getQueryString("type");
+        form.on('submit(formDemo)', function(data){
+
+
+            if(type==2){
+                $.ajax({
+                    type:"POST",
+                    async:false,
+                    dataType:'json',
+                    contentType :"application/json",
+                    url:"/UpdateCaseDO",
+                    data: JSON.stringify(data.field),
+                    success:function (data) {
+                        if(data.code==0){
+                            layer.msg("修改成功");
+                            //关闭当前页面，刷新父级页面
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+
+                        }
+                    }
+                });
+
+
+            }else if(type==1){
+                $.ajax({
+                    type:"POST",
+                    async:false,
+                    dataType:'json',
+                    contentType :"application/json",
+                    url:"/addcase",
+                    data: JSON.stringify(data.field),
+                    success:function (data) {
+                        if(data.message==''){
+                            layer.msg("新增成功");
+                            //关闭当前页面，刷新父级页面
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+
+                        }
+
+
+                    }
+                });
+            }
+
+
+
+
+        });
+        return false;
+    });
+    //说明:获取url参数
+    //参数obj:访问路径
+    //返回值:参数
+
+
+
+
+
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r !== null)
+            return unescape(r[2]);
+        return null;
+    }
+</script>
+</body>
+</html>

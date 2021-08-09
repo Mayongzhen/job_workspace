@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>精灵平台</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="application/javascript" src="layui/layui.all.js"></script>
+</head>
+<body class="layui-layout-body" scrolling="no">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">
+            <img src="layui/image/logo.png">
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+<!--        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="layui/image/happy.jpg" class="layui-nav-img">
+                    系统管理员
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/loginout">Login-Out</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="nav_demo">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">流量相关</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">流量录制</a></dd>
+                        <dd><a href="javascript:;">流量回放</a></dd>
+                        <dd><a href="javascript:;">流量对比</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">监控</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="http://172.16.0.13:3000">流量监控</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body" id="LAY_app_body">
+        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            <div class="layui-tab" lay-unauto="" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader" style="left: 0px;">
+                    <li lay-id="1">流量录制</li>
+            </ul>
+                <div class="layui-tab-content">
+                    <iframe class="layui-tab-item layui-show" src="flowdataRecord.html"></iframe>
+                <iframe class="layui-tab-item" src="flowdatareplay.html">
+                    </iframe>
+                  <iframe class="layui-tab-item" src="ReplayAndDiff.html">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+                 -----------------------------------------------------------------------------------©Copyright.精灵平台.AllRightsReserved.---------------------------------------------------------------------------------------------
+    </div>
+</div>
+    <script>
+    //JavaScript代码区域
+    layui.use('element',function () {
+//实例化element
+        var element = layui.element;
+//初始化动态元素，一些动态生成的元素如果不设置初始化，将不会有默认的动态效果
+        element.init();
+//导航条点击监听
+           var a=1;
+           var b=1;
+           var c=1;
+         //  element.tabDelete("layadmin-layout-tabs",'views/apitest.html');
+              element.on('nav(nav_demo)', function (elem) {
+                 if(elem.context.text=="流量录制"){
+                     element.tabChange('layadmin-layout-tabs',1);
+                 }else if(elem.context.text=="流量回放"){
+
+                     b++;
+                     if(b==2){
+                         element.tabAdd("layadmin-layout-tabs", {
+                             title: elem.context.text//支持传入html
+                             ,id: '2'});
+                     }
+                     element.tabChange('layadmin-layout-tabs',2);
+                 }else if(elem.context.text=="流量对比"){
+                     c++;
+                     if(c==2){
+                         element.tabAdd("layadmin-layout-tabs", {
+                             title: elem.context.text//支持传入html
+                             ,id: '3'});
+                     }
+                     element.tabChange('layadmin-layout-tabs',3);
+                 }
+                  layer.msg(elem.context.text);
+            console.log(elem);
+        });
+    /*    element.on('tab(layadmin-layout-tabs)', function(data){
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            console.log(data.index); //得到当前Tab的所在下标
+            console.log(data.elem); //得到当前的Tab大容器
+        });*/
+
+    });
+
+
+</script>
+
+<style type="text/css">
+    .layui-tab {
+        margin: 5px 0;
+        text-align: left!important;
+    }
+   .layui-tab-item{
+       width: 100%;
+       height: 600px;
+    }
+
+</style>
+</body>
+</html>
