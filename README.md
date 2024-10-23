@@ -1,2 +1,2 @@
 # job_workspace
-gorelay流量录制回放
+goreplay流量录制回放
